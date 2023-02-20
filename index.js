@@ -14,8 +14,9 @@ const client = new Discord.Client({
       "DirectMessages",
     ],
   }),
-  CLIENT_ID = new Date().getTime(),
-  END_COMMAND = "endbot=" + CLIENT_ID;
+  BOT_ID = new Date().getTime(),
+  END_COMMAND = "endbot=" + BOT_ID;
+console.log("BOT_ID:", BOT_ID);
 
 const { DisTube, objectKeys } = require("distube"),
   CONFIG = {
@@ -131,7 +132,7 @@ ${prefix}skip - proxima
 ${prefix}resume - voltar a tocar
 ${prefix}stop - parar totalmente
 
-bot_id: ${CLIENT_ID}
+bot_id: ${BOT_ID}
 comando de finalizacao: ${END_COMMAND}
 
 
