@@ -1,5 +1,7 @@
 //coxinha
 const Discord = require("discord.js");
+const express = require("express");
+const app = express();
 const client = new Discord.Client({
     intents: [
       1,
@@ -165,3 +167,12 @@ client.DisTube.on("playSong", async (queue, song) => {
 
   client.login(DCD_TOKEN);
 })();
+
+const port = process.env.PORT || 3001;
+
+// app.get("/", (req, res) => res.type('html').send(html));
+
+app.get("", (req, res) => {
+  res.send("DISCORD BOT RUNNING");
+});
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
