@@ -15,7 +15,7 @@ const client = new Discord.Client({
     ],
   }),
   CLIENT_ID = new Date().getTime(),
-  END_COMMAND = "endbot " + CLIENT_ID;
+  END_COMMAND = "endbot=" + CLIENT_ID;
 
 const { DisTube, objectKeys } = require("distube"),
   CONFIG = {
