@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": ">=16"
+  },
   "dependencies": {
     "@discordjs/opus": "^0.8.0",
     "@discordjs/voice": "^0.14.0",
