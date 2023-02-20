@@ -11,7 +11,7 @@ const client = new Discord.Client({
     "GuildMessages",
     "GuildVoiceStates",
     "MessageContent",
-    // "DirectMessages",
+    "DirectMessages",
   ],
 });
 
