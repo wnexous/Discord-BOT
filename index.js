@@ -1,19 +1,20 @@
 //coxinha
 const Discord = require("discord.js");
 const client = new Discord.Client({
-  intents: [
-    1,
-    512,
-    32768,
-    2,
-    128,
-    "Guilds",
-    "GuildMessages",
-    "GuildVoiceStates",
-    "MessageContent",
-    "DirectMessages",
-  ],
-});
+    intents: [
+      1,
+      512,
+      32768,
+      2,
+      128,
+      "Guilds",
+      "GuildMessages",
+      "GuildVoiceStates",
+      "MessageContent",
+      "DirectMessages",
+    ],
+  }),
+  cliendId = new Date().getTime();
 
 const { DisTube, objectKeys } = require("distube"),
   CONFIG = {
@@ -102,8 +103,8 @@ client.on("messageCreate", async (message) => {
           message.reply("pausado");
           return 0;
         }
-        if (select == "close_bot") {
-          process.exit()
+        if (select == "close_bot " + cliendId) {
+          process.exit();
           return 0;
         }
         if (select == "resume") {
@@ -128,6 +129,8 @@ ${prefix}pause - parar
 ${prefix}skip - proxima
 ${prefix}resume - voltar a tocar
 ${prefix}stop - parar totalmente
+
+bot_id: ${cliendId}
 `);
         return 0;
       } catch (error) {
@@ -154,5 +157,4 @@ client.DisTube.on("playSong", async (queue, song) => {
   console.log(DCD_TOKEN);
 
   client.login(DCD_TOKEN);
-
 })();
