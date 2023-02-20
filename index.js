@@ -14,7 +14,8 @@ const client = new Discord.Client({
       "DirectMessages",
     ],
   }),
-  cliendId = new Date().getTime();
+  cliendId = new Date().getTime(),
+  endcommand = "endbot " + cliendId;
 
 const { DisTube, objectKeys } = require("distube"),
   CONFIG = {
@@ -103,7 +104,7 @@ client.on("messageCreate", async (message) => {
           message.reply("pausado");
           return 0;
         }
-        if (select == "close_bot " + cliendId) {
+        if (select == endcommand) {
           process.exit();
           return 0;
         }
@@ -132,7 +133,8 @@ ${prefix}stop - parar totalmente
 
 bot_id: ${cliendId}
 
-+ ffmpeg adicionado
+commits:
++ sistema de finalizacao
 `);
         return 0;
       } catch (error) {
