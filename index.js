@@ -11,8 +11,7 @@ const client = new Discord.Client({
     "GuildMessages",
     "GuildVoiceStates",
     "MessageContent",
-    8,
-    "DirectMessages",
+    // "DirectMessages",
   ],
 });
 
@@ -32,8 +31,8 @@ client.DisTube = new DisTube(client, {
   },
 });
 client.on("ready", async () => {
-  const guild = await client.guilds.fetch("1027899438091468810");
-  const members = await guild.members.fetch(); // returns Collection
+  // const guild = await client.guilds.fetch("1027899438091468810");
+  // const members = await guild.members.fetch(); // returns Collection
   //   console.log(
   //     members.map((pao) => {
   //       return pao.user.id;
@@ -142,4 +141,16 @@ client.DisTube.on("playSong", async (queue, song) => {
     console.log(error);
   }
 });
-client.login(CONFIG.Api.origin + CONFIG.Api.path.discordToken);
+
+(async () => {
+  const DCD_TOKEN = await (
+    await (await fetch(CONFIG.Api.origin + CONFIG.Api.path.discordToken)).json()
+  ).token;
+
+  console.log(DCD_TOKEN);
+
+  // client.login(DCD_TOKEN);
+  client.login(
+    "MTA1MDEwNjI2Mjk3ODgyMjE2NQ.GAskGS.7Jl52-apwHomuoi309kdVYAK3IYZjckAGZBzRg"
+  );
+})();
