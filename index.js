@@ -2,39 +2,12 @@
 const Discord = require("discord.js");
 const express = require("express");
 const app = express();
-const client = new Discord.Client({
-    intents: [
-      1,
-      512,
-      32768,
-      2,
-      128,
-      "Guilds",
-      "GuildMessages",
-      "GuildVoiceStates",
-      "MessageContent",
-      "DirectMessages",
-    ],
-  }),
-  BOT_ID = new Date().getTime(),
-  END_COMMAND = "endbot=" + BOT_ID;
-console.log("BOT_ID:", BOT_ID);
+const { DisTube, objectKeys } = require("distube");
+const port = process.env.PORT || 3001;
+const CONFIG = {
+  Api: require("./src/config/Api.js"),
+};
 
-const { DisTube, objectKeys } = require("distube"),
-  CONFIG = {
-    Api: require("./src/config/Api.js"),
-  };
-client.DisTube = new DisTube(client, {
-  leaveOnStop: false,
-  emitNewSongOnly: true,
-  emitAddListWhenCreatingQueue: false,
-  emitAddSongWhenCreatingQueue: false,
-  ytdlOptions: {
-    quality: "highestaudio",
-    format: "audioonly",
-    liveBuffer: 60000,
-  },
-});
 // client.on("ready", async () => {
 //   // const guild = await client.guilds.fetch("1027899438091468810");
 //   // const members = await guild.members.fetch(); // returns Collection
@@ -50,10 +23,6 @@ client.DisTube = new DisTube(client, {
 //   // user.send('😍 OWW VEM CONHECER A CIDADE "MAGNUS RP" E AINDA GANHAR UMA 🛒"LAMBORGHINI HURACAN" DO VIP GRÁTIS...😉 TRAGA AMIGOS PARA CIDADE, E GANHE PRESENTES EXCLUSIVOS 🎉 https://discord.gg/3xetwB6Z')
 //   // console.log(user)
 // });
-
-client.on("ready", () => {
-  console.log(`Logado como: ${client.user.tag}!`);
-});
 // client.on("messageCreate", async (message) => {
 //   if (!message.author.bot && message.content.startsWith("%%%%%%")) {
 //     const guild = await client.guilds.fetch("1027899438091468810");
@@ -71,62 +40,102 @@ client.on("ready", () => {
 //     });
 //   }
 // });
-client.on("messageCreate", async (message) => {
-  const prefix = ".";
-  if (!message.author.bot || message.guild) {
-    if (message.content.toString().startsWith(prefix)) {
-      const args = message.content.slice(prefix.length).trim().split(/ +/g);
-      try {
-        const select = args.shift().toLowerCase();
-        const q = client.DisTube.getQueue(message.guild.id);
-        if (select == "play") {
-          try {
-            if (args.length >= 1) {
-              client.DisTube.play(
-                message.member.voice.channel,
-                args.join(" "),
-                {
-                  member: message.member,
-                  textChannel: message.channel,
-                  message,
-                }
-              );
-            } else {
-              message.reply(
-                "para adicionar uma música, utilize: $play nome_da_música"
-              );
+
+
+
+app.get("/", (req, res) => {
+  res.send("DISCORD BOT RUNNING");
+});
+app.get("/start", (req, res) => {
+  const client = new Discord.Client({
+      intents: [
+        1,
+        512,
+        32768,
+        2,
+        128,
+        "Guilds",
+        "GuildMessages",
+        "GuildVoiceStates",
+        "MessageContent",
+        "DirectMessages",
+      ],
+    }),
+    BOT_ID = new Date().getTime(),
+    END_COMMAND = "endbot=" + BOT_ID;
+
+  client.DisTube = new DisTube(client, {
+    leaveOnStop: false,
+    emitNewSongOnly: true,
+    emitAddListWhenCreatingQueue: false,
+    emitAddSongWhenCreatingQueue: false,
+    ytdlOptions: {
+      quality: "highestaudio",
+      format: "audioonly",
+      liveBuffer: 60000,
+    },
+  });
+
+  client.on("ready", () => {
+    console.log(`Logado como: ${client.user.tag}!`);
+  });
+
+  client.on("messageCreate", async (message) => {
+    const prefix = ".";
+    if (!message.author.bot || message.guild) {
+      if (message.content.toString().startsWith(prefix)) {
+        const args = message.content.slice(prefix.length).trim().split(/ +/g);
+        try {
+          const select = args.shift().toLowerCase();
+          const q = client.DisTube.getQueue(message.guild.id);
+          if (select == "play") {
+            try {
+              if (args.length >= 1) {
+                client.DisTube.play(
+                  message.member.voice.channel,
+                  args.join(" "),
+                  {
+                    member: message.member,
+                    textChannel: message.channel,
+                    message,
+                  }
+                );
+              } else {
+                message.reply(
+                  "para adicionar uma música, utilize: $play nome_da_música"
+                );
+              }
+            } catch (error) {
+              message.reply("Playlists não são suportadas");
             }
-          } catch (error) {
-            message.reply("Playlists não são suportadas");
+            message.reply("musica iniciada");
+            return 0;
           }
-          message.reply("musica iniciada");
-          return 0;
-        }
-        if (select == "pause") {
-          q.pause();
-          message.reply("pausado");
-          return 0;
-        }
-        if (select == END_COMMAND) {
-          process.exit();
-          return 0;
-        }
-        if (select == "resume") {
-          q.resume();
-          message.reply("continuado");
-          return 0;
-        }
-        if (select == "skip") {
-          q.skip();
-          message.reply("proxima musica...");
-          return 0;
-        }
-        if (select == "stop") {
-          q.stop();
-          message.reply("parado");
-          return 0;
-        }
-        message.reply(`
+          if (select == "pause") {
+            q.pause();
+            message.reply("pausado");
+            return 0;
+          }
+          if (select == END_COMMAND) {
+            process.exit();
+            return 0;
+          }
+          if (select == "resume") {
+            q.resume();
+            message.reply("continuado");
+            return 0;
+          }
+          if (select == "skip") {
+            q.skip();
+            message.reply("proxima musica...");
+            return 0;
+          }
+          if (select == "stop") {
+            q.stop();
+            message.reply("parado");
+            return 0;
+          }
+          message.reply(`
 Comandos
 ${prefix}play link/nome - tocar música
 ${prefix}pause - parar
@@ -141,38 +150,32 @@ comando de finalizacao: ${END_COMMAND}
 commits:
 + sistema de finalizacao
 `);
-        return 0;
-      } catch (error) {
-        console.log(error);
-        message.reply("Ocorreu algum erro.");
+          return 0;
+        } catch (error) {
+          console.log(error);
+          message.reply("Ocorreu algum erro.");
+        }
       }
     }
-  }
-});
-client.DisTube.on("playSong", async (queue, song) => {
-  try {
-    const embed = new Discord.EmbedBuilder().setTitle(song.name);
-    queue.textChannel.send({ embeds: [embed] });
-  } catch (error) {
-    console.log(error);
-  }
-});
+  });
+  client.DisTube.on("playSong", async (queue, song) => {
+    try {
+      const embed = new Discord.EmbedBuilder().setTitle(song.name);
+      queue.textChannel.send({ embeds: [embed] });
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
-(async () => {
-  const DCD_TOKEN = await (
-    await (await fetch(CONFIG.Api.origin + CONFIG.Api.path.discordToken)).json()
-  ).token;
+  (async () => {
+    const DCD_TOKEN = await (
+      await (
+        await fetch(CONFIG.Api.origin + CONFIG.Api.path.discordToken)
+      ).json()
+    ).token;
 
-  console.log(DCD_TOKEN);
-
-  client.login(DCD_TOKEN);
-})();
-
-const port = process.env.PORT || 3001;
-
-// app.get("/", (req, res) => res.type('html').send(html));
-
-app.get("", (req, res) => {
-  res.send("DISCORD BOT RUNNING");
+    const responsee = await client.login(DCD_TOKEN);
+    res.send(responsee);
+  })();
 });
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
