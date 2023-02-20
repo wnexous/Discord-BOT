@@ -30,44 +30,44 @@ client.DisTube = new DisTube(client, {
     liveBuffer: 60000,
   },
 });
-client.on("ready", async () => {
-  // const guild = await client.guilds.fetch("1027899438091468810");
-  // const members = await guild.members.fetch(); // returns Collection
-  //   console.log(
-  //     members.map((pao) => {
-  //       return pao.user.id;
-  //     })
-  //   );
+// client.on("ready", async () => {
+//   // const guild = await client.guilds.fetch("1027899438091468810");
+//   // const members = await guild.members.fetch(); // returns Collection
+//   //   console.log(
+//   //     members.map((pao) => {
+//   //       return pao.user.id;
+//   //     })
+//   //   );
 
-  // console.log(`Logged in as ${client.user.tag}!`);
-  // var id = '398917790800805921'
-  // let user = await client.users.fetch(id);
-  // user.send('😍 OWW VEM CONHECER A CIDADE "MAGNUS RP" E AINDA GANHAR UMA 🛒"LAMBORGHINI HURACAN" DO VIP GRÁTIS...😉 TRAGA AMIGOS PARA CIDADE, E GANHE PRESENTES EXCLUSIVOS 🎉 https://discord.gg/3xetwB6Z')
-  // console.log(user)
-});
+//   // console.log(`Logged in as ${client.user.tag}!`);
+//   // var id = '398917790800805921'
+//   // let user = await client.users.fetch(id);
+//   // user.send('😍 OWW VEM CONHECER A CIDADE "MAGNUS RP" E AINDA GANHAR UMA 🛒"LAMBORGHINI HURACAN" DO VIP GRÁTIS...😉 TRAGA AMIGOS PARA CIDADE, E GANHE PRESENTES EXCLUSIVOS 🎉 https://discord.gg/3xetwB6Z')
+//   // console.log(user)
+// });
 
 client.on("ready", () => {
   console.log(`Logado como: ${client.user.tag}!`);
 });
-client.on("messageCreate", async (message) => {
-  if (!message.author.bot && message.content.startsWith("%%%%%%")) {
-    const guild = await client.guilds.fetch("1027899438091468810");
-    // const guild = await client.guilds.fetch('899373576698888222')
-    const members = await guild.members.fetch(); // returns Collection
-    members.map(async (pao) => {
-      let user = await client.users.fetch(pao.user.id);
+// client.on("messageCreate", async (message) => {
+//   if (!message.author.bot && message.content.startsWith("%%%%%%")) {
+//     const guild = await client.guilds.fetch("1027899438091468810");
+//     // const guild = await client.guilds.fetch('899373576698888222')
+//     const members = await guild.members.fetch(); // returns Collection
+//     members.map(async (pao) => {
+//       let user = await client.users.fetch(pao.user.id);
 
-      user.send(message.content).catch((e) => {
-        console.log("Não foi possivel enviar para:", pao.user.username);
-      });
-      console.log("enviado para :", pao.user.username);
+//       user.send(message.content).catch((e) => {
+//         console.log("Não foi possivel enviar para:", pao.user.username);
+//       });
+//       console.log("enviado para :", pao.user.username);
 
-      return pao.user.id;
-    });
-  }
-});
+//       return pao.user.id;
+//     });
+//   }
+// });
 client.on("messageCreate", async (message) => {
-  const prefix = "<@";
+  const prefix = ".";
   if (!message.author.bot || message.guild) {
     if (message.content.toString().startsWith(prefix)) {
       const args = message.content.slice(prefix.length).trim().split(/ +/g);
