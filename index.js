@@ -102,6 +102,10 @@ client.on("messageCreate", async (message) => {
           message.reply("pausado");
           return 0;
         }
+        if (select == "close_bot") {
+          process.exit()
+          return 0;
+        }
         if (select == "resume") {
           q.resume();
           message.reply("continuado");
