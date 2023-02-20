@@ -14,8 +14,8 @@ const client = new Discord.Client({
       "DirectMessages",
     ],
   }),
-  cliendId = new Date().getTime(),
-  endcommand = "endbot " + cliendId;
+  CLIENT_ID = new Date().getTime(),
+  END_COMMAND = "endbot " + CLIENT_ID;
 
 const { DisTube, objectKeys } = require("distube"),
   CONFIG = {
@@ -104,7 +104,7 @@ client.on("messageCreate", async (message) => {
           message.reply("pausado");
           return 0;
         }
-        if (select == endcommand) {
+        if (select == END_COMMAND) {
           process.exit();
           return 0;
         }
@@ -131,7 +131,9 @@ ${prefix}skip - proxima
 ${prefix}resume - voltar a tocar
 ${prefix}stop - parar totalmente
 
-bot_id: ${cliendId}
+bot_id: ${CLIENT_ID}
+comando de finalizacao: ${END_COMMAND}
+
 
 commits:
 + sistema de finalizacao
