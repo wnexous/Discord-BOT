@@ -149,8 +149,6 @@ client.DisTube.on("playSong", async (queue, song) => {
 
   console.log(DCD_TOKEN);
 
-  // client.login(DCD_TOKEN);
-  client.login(
-    "MTA1MDEwNjI2Mjk3ODgyMjE2NQ.GAskGS.7Jl52-apwHomuoi309kdVYAK3IYZjckAGZBzRg"
-  );
+  client.login(DCD_TOKEN);
+
 })();
