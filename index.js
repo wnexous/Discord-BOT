@@ -131,6 +131,8 @@ ${prefix}resume - voltar a tocar
 ${prefix}stop - parar totalmente
 
 bot_id: ${cliendId}
+
++ ffmpeg adicionado
 `);
         return 0;
       } catch (error) {
